@@ -3,12 +3,12 @@ import tweepy
 import sys
 import pprint
 import os
-import ConfigParser
+import configparser
 import time
 
 tweetid = sys.argv[1]
 
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('tweepy.ini')
 
 consumer_key = config.get('Twitter', 'consumer_key')
