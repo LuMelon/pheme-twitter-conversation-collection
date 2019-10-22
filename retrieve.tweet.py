@@ -1,12 +1,9 @@
 import json
-import tweepy
 import sys
 import pprint
 import os
 import configparser
 import time
-from TwitterAPI import TwitterAPI
-from TwitterAPI import TwitterPager
 import json
 from twython import Twython
 import os
