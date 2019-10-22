@@ -9,7 +9,7 @@ import time
 tweetid = sys.argv[1]
 
 config = ConfigParser.ConfigParser()
-config.read('twitter.ini')
+config.read('tweepy.ini')
 
 consumer_key = config.get('Twitter', 'consumer_key')
 consumer_secret = config.get('Twitter', 'consumer_secret')
@@ -23,7 +23,7 @@ api = tweepy.API(auth)
 try:
 	tweets = api._statuses_lookup(id=tweetid)
 	for tweet in tweets:
-		print json.dumps(tweet.json)
-	print tweet
+		print(json.dumps(tweet.json))
+	print(tweet)
 except:
 	sys.exit()

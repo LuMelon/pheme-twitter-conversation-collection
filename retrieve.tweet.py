@@ -13,7 +13,7 @@ import time
 import pickle
 
 tweetid = sys.argv[1]
-config = configparser.ConfigParser()
+# config = configparser.ConfigParser()
 # config.read('twitter.ini')
 # consumer_key = config.get('Twitter', 'consumer_key')
 # consumer_secret = config.get('Twitter', 'consumer_secret')
