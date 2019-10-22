@@ -16,7 +16,6 @@ function get_replying_ids ($tweetid, $username) {
     echo "wget htlml page\n";
     $content = shell_exec("wget \"" . $url . "\" -q --load-cookies=./cookies.txt -O -");
     echo "wget htlml page completed\n";
-    echo $content;
     $content = html_entity_decode(str_replace("\\n", "\n", $content));
     $content = str_replace("\\u003c", "<", $content);
     $content = str_replace("\\u003e", ">", $content);
@@ -145,9 +144,6 @@ echo "debug2\n";
 
 $sourcetweet = @shell_exec("python retrieve.tweet.py " . $tweetid);
 echo "debug3\n";
-echo $sourcetweet;
-echo "debug4\n";
-$e_out = "Error";
 
 if (strcmp($sourcetweet, $e_out) == 0){
   echo "error!\n";
