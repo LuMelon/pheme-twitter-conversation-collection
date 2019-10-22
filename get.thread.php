@@ -73,11 +73,14 @@ function collect_replying_tweets ($tweetid, $username) {
     $idsstr .= $replyingid . ",";
     $idcount++;
     if ($idcount == 100 || $allcount == count($replyingids)) {
+      echo $idsstr;
       $tweets = @shell_exec("python retrieve.tweet.list.py " . substr($idsstr, 0, strlen($idsstr) - 1));
       $tweets = explode("\n", $tweets);
       foreach ($tweets as $tweet) {
         $tweetobj = @json_decode($tweet);
         if (isset($tweetobj->id_str)) {
+          echo "tweetid:" . $tweetid . "\n";
+          echo $tweet;
           file_put_contents("data/" . $tweetid . "/reactions/" . $tweetobj->id_str . ".json", $tweet);
           $replycount++;
         }
