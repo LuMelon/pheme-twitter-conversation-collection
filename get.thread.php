@@ -13,7 +13,10 @@ function get_replying_ids ($tweetid, $username) {
     else {
       $url = "https://twitter.com/i/" . $username . "/conversation/" . $tweetid . "?include_available_features=1&include_entities=1&max_position=" . $maxposition;
     }
+    echo "wget htlml page\n";
     $content = shell_exec("wget \"" . $url . "\" -q --load-cookies=./cookies.txt -O -");
+    echo "wget htlml page completed\n";
+    echo $content;
     $content = html_entity_decode(str_replace("\\n", "\n", $content));
     $content = str_replace("\\u003c", "<", $content);
     $content = str_replace("\\u003e", ">", $content);
@@ -59,7 +62,9 @@ function collect_replying_tweets ($tweetid, $username) {
 
   @mkdir("data/" . $tweetid . "/reactions/");
   @chmod("data/" . $tweetid . "/reactions/", 0777);
+  echo "before get_replying_ids\n";
   get_replying_ids($tweetid, $username);
+  echo "after get_replying_ids\n";
 
   $idsstr = "";
   $idcount = 0;
@@ -120,11 +125,14 @@ function create_structure($tweetid) {
   chmod("data/" . $tweetid . "/structure.json", 0777);
 }
 
+echo "start\n";
+
 if (!isset($argv[1])) {
   exit(0);
 }
-$tweetid = $argv[1];
 
+$tweetid = $argv[1];
+echo "debug1\n";
 if (strstr($tweetid, "/")) {
   $tweetid = explode("/", $tweetid);
   $tweetid = $tweetid[count($tweetid) - 1];
@@ -133,19 +141,32 @@ if (strstr($tweetid, "/")) {
 $replyingids = array();
 $structure = array($tweetid => array());
 
+echo "debug2\n";
+
 $sourcetweet = @shell_exec("python retrieve.tweet.py " . $tweetid);
-$sourcetweetobj = json_decode($sourcetweet);
-if (isset($sourcetweetobj->id_str)) {
-  $username = $sourcetweetobj->user->screen_name;
+echo "debug3\n";
+echo $sourcetweet;
+echo "debug4\n";
+$e_out = "Error";
 
-  @mkdir("data/" . $tweetid);
-  @chmod("data/" . $tweetid, 0766);
-  @mkdir("data/" . $tweetid . "/source-tweets/");
-  @chmod("data/" . $tweetid . "/source-tweets/", 0766);
-  file_put_contents("data/" . $tweetid . "/source-tweets/" . $tweetid . ".json", $sourcetweet);
+if (strcmp($sourcetweet, $e_out) == 0){
+  echo "error!\n";
+}
+else{
+  $sourcetweetobj = json_decode($sourcetweet);  
+  echo "debug5\n";
+  if (isset($sourcetweetobj->id_str)) {
+    $username = $sourcetweetobj->user->screen_name;
 
-  collect_replying_tweets($tweetid, $username);
+    @mkdir("data/" . $tweetid);
+    @chmod("data/" . $tweetid, 0766);
+    @mkdir("data/" . $tweetid . "/source-tweets/");
+    @chmod("data/" . $tweetid . "/source-tweets/", 0766);
+    file_put_contents("data/" . $tweetid . "/source-tweets/" . $tweetid . ".json", $sourcetweet);
 
-  create_structure($tweetid);
+    collect_replying_tweets($tweetid, $username);
+
+    create_structure($tweetid);
+  }
 }
 ?>
