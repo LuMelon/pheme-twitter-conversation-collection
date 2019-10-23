@@ -79,8 +79,7 @@ function collect_replying_tweets ($tweetid, $username) {
       foreach ($tweets as $tweet) {
         $tweetobj = @json_decode($tweet);
         if (isset($tweetobj->id_str)) {
-          echo "tweetid:" . $tweetid . "\n";
-          echo $tweet;
+          echo "reply tweetid:" . $tweetid . "\n";
           file_put_contents("data/" . $tweetid . "/reactions/" . $tweetobj->id_str . ".json", $tweet);
           $replycount++;
         }
