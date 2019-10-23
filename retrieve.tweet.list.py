@@ -26,4 +26,5 @@ try:
 		print(json.dumps(tweet.json))
 	print(tweet)
 except:
+	raise
 	sys.exit()
