@@ -28,12 +28,16 @@ with open("twitter.handler", "rb") as fr:
     twitter = pickle.load(fr)
 
 
-try:
-	tweets = [twitter.show_status(id=tweetid) for tweetid in idlist]
+tweets = []
+for tweetid in idlist:
+	try:
+		tweets.append(twitter.show_status(id=tweetid) )
+	except:
+		print("tweetid:", tweetid)
+		pass
+		
+if len(tweets)>0:
 	print('\n'.join([json.dumps(tweet) for tweet in tweets]))
 	# with open("test.json", "r") as fr:
 	# 	dic = json.load(fr)
 	# print(json.dumps(dic))
-except:
-	print("Error")
-	raise
