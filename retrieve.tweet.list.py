@@ -36,4 +36,4 @@ try:
 	# print(json.dumps(dic))
 except:
 	print("Error")
-	sys.exit()
+	raise
