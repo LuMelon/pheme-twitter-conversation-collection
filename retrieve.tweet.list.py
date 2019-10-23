@@ -1,37 +1,4 @@
 import json
-import tweepy
-import sys
-import pprint
-import os
-import configparser
-import time
-
-tweetid = sys.argv[1]
-
-config = configparser.ConfigParser()
-config.read('tweepy.ini')
-
-consumer_key = config.get('Twitter', 'consumer_key')
-consumer_secret = config.get('Twitter', 'consumer_secret')
-access_key = config.get('Twitter', 'access_key')
-access_secret = config.get('Twitter', 'access_secret')
-
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_key, access_secret)
-api = tweepy.API(auth)
-
-try:
-	tweets = api._statuses_lookup(id=tweetid)
-	for tweet in tweets:
-		print(json.dumps(tweet.json))
-	print(tweet)
-except:
-	raise
-	sys.exit()
-
-
-
-import json
 import sys
 import pprint
 import os
