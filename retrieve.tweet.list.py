@@ -33,7 +33,6 @@ for tweetid in idlist:
 	try:
 		tweets.append(twitter.show_status(id=tweetid) )
 	except:
-		print("tweetid:", tweetid)
 		pass
 		
 if len(tweets)>0:
